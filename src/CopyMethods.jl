@@ -16,7 +16,7 @@ function copy_row!{T}(A::AbstractArray{T,2},row1::Int,row2::Int)
 end
 
 function copy_row!{T}(A::AbstractArray{T,1},N::Int, row1::Int,row2::Int)
-  if length(A) == 0 || max(row1, row2) <= N
+  if length(A) == 0 || max(row1, row2) > N
       return
   end
   # @printf("%s %s %s %s %s",row1, row2, N, length(A), length(A)/N)

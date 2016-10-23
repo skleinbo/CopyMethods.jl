@@ -4,8 +4,8 @@ module CopyMethods
 export copy_col!, copy_row!, unit
 
 function copy_col!{T}(A::AbstractArray{T,2},col1::Int,col2::Int)
-  for i in 1:size(A,1)
-    @inbounds A[i,col2] = A[i,col1]
+  @simd @inbounds for i in 1:size(A,1)
+    A[i,col2] = A[i,col1]
   end
 end
 
@@ -20,8 +20,8 @@ function copy_row!{T}(A::AbstractArray{T,1},N::Int, row1::Int,row2::Int)
       return
   end
   # @printf("%s %s %s %s %s",row1, row2, N, length(A), length(A)/N)
-  @simd for i in 1:Int(length(A)/N)
-    @inbounds A[ row2+N*(i-1) ] = A[ row1+N*(i-1) ]
+  @inbounds @simd for i in 1:Int(length(A)/N)
+    A[ row2+N*(i-1) ] = A[ row1+N*(i-1) ]
   end
 end
 
